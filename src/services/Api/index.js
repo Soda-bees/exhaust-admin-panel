@@ -22,3 +22,49 @@ export const getAllProducts = async (token) => {
     const { data } = await axios.get(`${baseURL}getAllProducts`, { headers })
     return data
 }
+
+export const deleteProduct = async (_id, token) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.post(`${baseURL}deleteProduct`, { _id }, { headers })
+    return data
+}
+
+export const uploadBrandLogo = async (formData, token) => {
+    const headers = {
+        'Content-Type': 'multipart/form-data',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.post(`${baseURL}uploadBrandLogo`, formData, { headers })
+    return data
+}
+
+export const uploadSound = async (formData, token) => {
+    const headers = {
+        'Content-Type': 'multipart/form-data',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.post(`${baseURL}uplaodSound`, formData, { headers })
+    return data
+}
+
+export const uploadProductsImages = async (formData, token) => {
+    const headers = {
+        'Content-Type': 'multipart/form-data',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.post(`${baseURL}uploadProductsImages`, formData, { headers })
+    return data
+}
+
+export const addProduct = async (token, body) => {
+    console.log(body);
+    const headers = {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.post(`${baseURL}addProduct`, body, { headers })
+    return data
+}

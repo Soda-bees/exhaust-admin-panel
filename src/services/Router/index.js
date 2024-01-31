@@ -5,6 +5,7 @@ import Layout from "../../screens/Layout";
 import Products from "../../screens/Products";
 import Orders from "../../screens/Orders";
 import Signin from "../../screens/Signin";
+import AddProduct from "../../screens/AddnewProduct";
 
 const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
             {
                 path: '/signin',
                 element: <Signin />,
+            },
+            {
+                path: '/addProduct',
+                element: <AddProduct />,
             }
 
         ],

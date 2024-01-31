@@ -9,8 +9,9 @@ export default function Header() {
 
     const [dropDown, setDropDown] = useState(false)
     return (
-        <div className='w-full flex items-center justify-end px-5 py-2'
+        <div className='w-full flex items-center justify-end px-5 py-2 '
             style={{ position: "sticky", top: 0, zIndex: 50 }}
+            
         >
             <div className='relative'>
                 <img src={images.signinImg} className='w-10 h-10 rounded-full cursor-pointer'

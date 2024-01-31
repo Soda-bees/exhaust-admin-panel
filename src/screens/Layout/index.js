@@ -34,7 +34,7 @@ export default function Layout() {
         <>
             <div className='flex'>
                 <Sidebar />
-                <div className='w-full ml-15p h-[94vh]'>
+                <div className='w-full ml-15p min-h-screen bg-gray'>
                     <Header handleSignOut={handleSignOut} />
                     <Outlet />
                 </div>

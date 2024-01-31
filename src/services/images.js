@@ -14,8 +14,14 @@ import eyeHide from "../assets/images/eyeHide.png"
 import eyeShow from "../assets/images/eyeShow.png"
 import add from "../assets/images/add.png"
 import menu from "../assets/images/menu.png"
+import soundUpload from "../assets/images/soundUpload.png"
+import uploadImg from "../assets/images/uploadImg.png"
+import uploadImages from "../assets/images/uploadImages.png"
 
 const images = {
+    uploadImages,
+    uploadImg,
+    soundUpload,
     menu,
     add,
     eyeHide,

@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { FadeLoader } from 'react-spinners'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-import { getAllProducts } from '../../services/Api';
+import { deleteProduct, getAllProducts } from '../../services/Api';
 import { useSelector } from 'react-redux';
 import { selectAuthToken } from '../../store/authTokenSlice';
 import images from '../../services/images';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Products() {
 
+    const navigate = useNavigate()
+
     const authToken = useSelector(selectAuthToken)
 
-    const [loader, setLoader] = useState(false)
+    const [loader, setLoader] = useState(true)
     const [allProducts, setAllProducts] = useState([])
     const [indexArray, setIndexArray] = useState()
 
@@ -52,35 +57,67 @@ export default function Products() {
 
 
     const toggleIndex = (index) => {
-        setIndexArray(prevArray => {
-            const indexExists = indexArray
-            if(index === indexExists){
-                setIndexArray()
-            }else{
-                setIndexArray(index)
+        setIndexArray((prevIndex) => {
+            if (index === prevIndex) {
+                return null;
+            } else {
+                return index;
             }
-        })
-        // setIndexArray(prevArray => {
-        //     const indexExists = prevArray.includes(index);
-        //     if (indexExists) {
-        //         return prevArray.filter(item => item !== index);
-        //     } else {
-        //         return [...prevArray, index];
-        //     }
-        // });
+        });
     };
 
+    const handleDelete = async (_id) => {
+        try {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    setLoader(true)
+                    const response = await deleteProduct(_id, authToken)
+                    if (response.success) {
+                        const updatedProducts = allProducts.filter((product) => product._id !== _id);
+                        setAllProducts(updatedProducts);
+                        setLoader(false)
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        });
+                    } else {
+                        setLoader(false)
+                        notify(response.message)
+                    }
+                }
+            });
+        } catch (error) {
+            setLoader(false)
+            console.log(error.message);
+            notify(error.message)
+        }
+    }
+
+
     return (
-        <div className='w-full h-full bg-gray'>
-            <div className=' flex items-center justify-between px-5 text-black text-xl font-bold'>
+        <div className='w-full bg-green-500'>
+            <div className='flex items-center justify-between px-5 pt-4 text-black text-xl font-bold'>
                 All Products
-                <div className='bg-blue w-10 h-10 rounded-full flex items-center justify-center cursor-pointer active:opacity-50'>
-                    <img src={images.add} />
+                <div className='bg-blue text-white text-sm font-semibold px-4 py-2 rounded-md flex items-center justify-center cursor-pointer active:opacity-50'
+                    onClick={() => navigate('/addProduct')}
+                >
+                    <img src={images.add} className='w-4 mr-2' />
+                    Add new product
                 </div>
             </div>
+            {/* <div className=' w-full h-full'> */}
             {
                 loader ?
-                    <div className='w-full h-full flex items-center justify-center'>
+                    <div className='w-full h-full flex items-center justify-center bg-red-500'>
                         <FadeLoader size={100} color='#124694' />
                     </div>
                     :
@@ -97,24 +134,31 @@ export default function Products() {
                                                 <div>{`$${item?.price}.00`}</div>
                                             </div>
                                             <div className='relative'>
-                                                <img src={images.menu} className='w-8 cursor-pointer active:opacity-50' 
-                                                onClick={() => toggleIndex(index)}
+                                                <img src={images.menu} className='w-8 cursor-pointer active:opacity-50'
+                                                    onClick={() => toggleIndex(index)}
                                                 />
                                                 {
                                                     indexArray === index &&
                                                     // indexArray.includes(index) && 
                                                     (
-                                                        <div className='bg-red-500 absolute right-2'>
-                                                          <div
-                                                          onClick={() => console.log(item.price)}
-                                                          >View</div>
+                                                        <div className='bg-white absolute right-2 flex flex-col shadow-lg rounded-md py-2'>
+                                                            <div className='bg-white px-6 py-1  hover:bg-gray cursor-pointer active:opacity-50'>View</div>
+                                                            <div className='bg-white px-6 py-1  hover:bg-gray cursor-pointer active:opacity-50'>Edit</div>
+                                                            <div
+                                                                className='bg-white px-6 py-1  hover:bg-gray cursor-pointer active:opacity-50'
+                                                                onClick={() => {
+                                                                    setIndexArray()
+                                                                    handleDelete(item._id)
+                                                                }}
+                                                            >Delete</div>
                                                         </div>
                                                     )
                                                 }
                                             </div>
                                         </div>
-                                        <div>Description</div>
+                                        <div className='font-bold mt-5'>Description</div>
                                         <div
+                                            className='text-sm'
                                             style={{ display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden', WebkitLineClamp: 1 }}
                                         >
                                             {item.description}
@@ -124,6 +168,8 @@ export default function Products() {
                             })}
                     </div>
             }
+            {/* </div> */}
+
             <ToastContainer />
         </div>
     )
