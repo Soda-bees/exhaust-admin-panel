@@ -60,11 +60,28 @@ export const uploadProductsImages = async (formData, token) => {
 }
 
 export const addProduct = async (token, body) => {
-    console.log(body);
     const headers = {
         'Content-Type': 'application/json',
         "Authorization": `Bearer ${token}`
     }
     const { data } = await axios.post(`${baseURL}addProduct`, body, { headers })
+    return data
+}
+
+export const updateProduct = async (token, body) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.post(`${baseURL}updateProduct`, body, { headers })
+    return data
+}
+
+export const getAllOrders = async (token) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.get(`${baseURL}allOrders`, { headers })
     return data
 }

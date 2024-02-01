@@ -7,6 +7,7 @@ import { selectAuthToken } from '../../store/authTokenSlice';
 import images from '../../services/images';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import Pagination from '../../component/Pagination';
 
 
 export default function Products() {
@@ -15,9 +16,15 @@ export default function Products() {
 
     const authToken = useSelector(selectAuthToken)
 
-    const [loader, setLoader] = useState(true)
+    const [loader, setLoader] = useState(false)
     const [allProducts, setAllProducts] = useState([])
     const [indexArray, setIndexArray] = useState()
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 8;
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = allProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
     const notify = (message) => {
         toast.error(message, {
@@ -86,7 +93,7 @@ export default function Products() {
                         setLoader(false)
                         Swal.fire({
                             title: "Deleted!",
-                            text: "Your file has been deleted.",
+                            text: "Your product has been deleted.",
                             icon: "success"
                         });
                     } else {
@@ -102,9 +109,12 @@ export default function Products() {
         }
     }
 
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
     return (
-        <div className='w-full bg-green-500'>
+        <div className='w-full relative pb-5 '>
             <div className='flex items-center justify-between px-5 pt-4 text-black text-xl font-bold'>
                 All Products
                 <div className='bg-blue text-white text-sm font-semibold px-4 py-2 rounded-md flex items-center justify-center cursor-pointer active:opacity-50'
@@ -114,18 +124,24 @@ export default function Products() {
                     Add new product
                 </div>
             </div>
-            {/* <div className=' w-full h-full'> */}
             {
                 loader ?
-                    <div className='w-full h-full flex items-center justify-center bg-red-500'>
+                    <div className='w-full absolute top-[40vh] flex items-center justify-center'>
                         <FadeLoader size={100} color='#124694' />
                     </div>
                     :
                     <div className='px-5 mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2'>
                         {allProducts &&
-                            allProducts.map((item, index) => {
+                            currentProducts.map((item, index) => {
+                                console.log(item.quantity);
                                 return (
-                                    <div key={index} className='bg-white p-2 rounded-md shadow-md'>
+                                    <div key={index} className='bg-white p-2 rounded-md shadow-md relative'>
+                                        {
+                                            item.quantity < 10 &&
+                                            <div
+                                                className='w-2 h-2 bg-red-500 rounded-full absolute left-0 top-[0px]'
+                                            ></div>
+                                        }
                                         <div className='flex items-start justify-between'>
                                             <img src={item?.images?.[0]} className='w-1/4  rounded-md' />
                                             <div className='w-full'>
@@ -142,8 +158,14 @@ export default function Products() {
                                                     // indexArray.includes(index) && 
                                                     (
                                                         <div className='bg-white absolute right-2 flex flex-col shadow-lg rounded-md py-2'>
-                                                            <div className='bg-white px-6 py-1  hover:bg-gray cursor-pointer active:opacity-50'>View</div>
-                                                            <div className='bg-white px-6 py-1  hover:bg-gray cursor-pointer active:opacity-50'>Edit</div>
+                                                            <div
+                                                                className='bg-white px-6 py-1  hover:bg-gray cursor-pointer active:opacity-50'
+                                                                onClick={() => navigate(`/productDetail/${item._id}`, { state: item })}
+                                                            >View</div>
+                                                            <div
+                                                                className='bg-white px-6 py-1  hover:bg-gray cursor-pointer active:opacity-50'
+                                                                onClick={() => navigate(`/updateProduct/${item._id}`, { state: item })}
+                                                            >Update</div>
                                                             <div
                                                                 className='bg-white px-6 py-1  hover:bg-gray cursor-pointer active:opacity-50'
                                                                 onClick={() => {
@@ -168,8 +190,9 @@ export default function Products() {
                             })}
                     </div>
             }
-            {/* </div> */}
-
+            <div className=' fixed bottom-10 left-15p '>
+                <Pagination currentPage={currentPage} totalPages={Math.ceil(allProducts.length / productsPerPage)} onPageChange={handlePageChange} />
+            </div>
             <ToastContainer />
         </div>
     )

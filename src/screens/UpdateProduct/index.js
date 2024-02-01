@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import images from '../../services/images'
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { FadeLoader } from 'react-spinners';
 import { useSelector } from 'react-redux';
 import { selectAuthToken } from '../../store/authTokenSlice';
 import axios from 'axios';
-import { addProduct, uploadBrandLogo, uploadProductsImages, uploadSound } from '../../services/Api';
+import { addProduct, updateProduct, uploadBrandLogo, uploadProductsImages, uploadSound } from '../../services/Api';
 import Swal from 'sweetalert2';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
-export default function AddProduct() {
+export default function UpdateProduct() {
+
+    const location = useLocation();
+    const navigate = useNavigate()
+
     const [brandLogo, setBrandLogo] = useState(null)
     const [selectedSound, setSelectedSound] = useState(null);
     const [loader, setLoader] = useState(false)
@@ -19,8 +24,24 @@ export default function AddProduct() {
     const [quantity, setQuantity] = useState()
     const [brandName, setBrandName] = useState('')
     const [description, setDescription] = useState('')
+    const [_id, set_id] = useState()
 
     const authToken = useSelector(selectAuthToken)
+
+    useEffect(() => {
+        console.log("-=-=", location.state);
+        if (location.state) {
+            setName(location.state?.name)
+            setQuantity(location.state?.quantity)
+            setPrice(location.state?.price)
+            setBrandName(location.state?.brand?.name)
+            setBrandLogo(location.state?.brand?.logo)
+            setSelectedSound(location.state?.sound)
+            setDescription(location.state?.description)
+            setProductsImages(location.state?.images)
+            set_id(location.state?._id)
+        }
+    }, [location.state])
 
     const notify = (message) => {
         toast.error(message, {
@@ -113,9 +134,10 @@ export default function AddProduct() {
         }
     }
 
-    const handleAddProduct = async () => {
+    const handleUpdateProduct = async () => {
         try {
             const obj = {
+                _id,
                 images: productsImages,
                 brand: {
                     name: brandName,
@@ -128,7 +150,7 @@ export default function AddProduct() {
                 sound: selectedSound
             }
             setLoader(true)
-            const response = await addProduct(authToken, obj)
+            const response = await updateProduct(authToken, obj)
             if (response.success) {
                 setLoader(false)
                 setName('')
@@ -141,12 +163,16 @@ export default function AddProduct() {
                 setProductsImages()
                 Swal.fire({
                     title: "Congratulation!",
-                    text: "Your product has been added successfully!",
+                    text: "Your product has been updated successfully!",
                     icon: "success",
                     showCancelButton: false,
-                    confirmButtonColor: '#124694', 
+                    confirmButtonColor: '#124694',
                     confirmButtonText: 'Done',
                     buttonsStyling: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate('/products')
+                    }
                 });
             } else {
                 setLoader(false)
@@ -162,7 +188,7 @@ export default function AddProduct() {
             <div
                 className='flex items-center justify-between px-6 py-4  text-black text-xl font-bold'
             >
-                Add new product
+                Update product
             </div>
             {
                 loader ?
@@ -326,12 +352,17 @@ export default function AddProduct() {
                                 }
                             </div>
 
-                            <div className='flex items-center'>
+                            <div className='flex items-center  justify-between'>
                                 <div
                                     className='bg-blue text-white text-lg font-semibold px-7 py-3 rounded-md cursor-pointer active:opacity-50'
-                                    onClick={handleAddProduct}
+                                    onClick={handleUpdateProduct}
                                 >
-                                    Add Product
+                                    Update Product
+                                </div>
+                                <div
+                                    onClick={() => navigate('/products')}
+                                    className='bg-gray text-lg font-semibold px-7 py-3 rounded-md cursor-pointer active:opacity-50'>
+                                    Cancel
                                 </div>
                             </div>
                         </div>

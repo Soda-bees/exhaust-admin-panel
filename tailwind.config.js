@@ -8,11 +8,13 @@ module.exports = {
       colors: {
         blue: "#124694",
         gray: "#E7E7E3",
-        disable:'#00000033'
+        disable:'#00000033',
+        disable2:'#F1F3F4'
       },
       width: {
         "10p": "10%",
         "15p": "15%",
+        "16p": "16%",
         "20p": "20%",
         "25p": "25%",
         "40p": "40%",

@@ -17,8 +17,16 @@ import menu from "../assets/images/menu.png"
 import soundUpload from "../assets/images/soundUpload.png"
 import uploadImg from "../assets/images/uploadImg.png"
 import uploadImages from "../assets/images/uploadImages.png"
+import paginationLeft from "../assets/images/paginationLeft.png"
+import paginationLeft2 from "../assets/images/paginationLeft2.png"
+import paginationRight from "../assets/images/paginationRight.png"
+import paginationRight2 from "../assets/images/paginationRight2.png"
 
 const images = {
+    paginationLeft,
+    paginationLeft2,
+    paginationRight,
+    paginationRight2,
     uploadImages,
     uploadImg,
     soundUpload,

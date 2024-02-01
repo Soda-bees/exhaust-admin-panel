@@ -6,6 +6,8 @@ import Products from "../../screens/Products";
 import Orders from "../../screens/Orders";
 import Signin from "../../screens/Signin";
 import AddProduct from "../../screens/AddnewProduct";
+import UpdateProduct from "../../screens/UpdateProduct";
+import ProductDetail from "../../screens/ProductDetail";
 
 const router = createBrowserRouter([
     {
@@ -31,6 +33,15 @@ const router = createBrowserRouter([
             {
                 path: '/addProduct',
                 element: <AddProduct />,
+            },
+            {
+                path: '/updateProduct/:_id',
+                element: <UpdateProduct />,
+            }
+            ,
+            {
+                path: '/productDetail/:_id',
+                element: <ProductDetail />,
             }
 
         ],
