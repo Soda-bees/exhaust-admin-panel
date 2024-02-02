@@ -17,7 +17,6 @@ export default function ProductDetail() {
     const [selectedIndex, setSelectedIndex] = useState(0)
 
     useEffect(() => {
-        console.log("-=-=", location.state);
         if (location.state) {
             setName(location.state?.name)
             setQuantity(location.state?.quantity)
@@ -45,7 +44,6 @@ export default function ProductDetail() {
                         productsImages?.map((item, index) => {
                             return (
                                 <img src={item} key={index}
-                                    // className='border-b border-blue w-80p active:opacity-50 mt-5 cursor-pointer bg-gray p-2 rounded-md shadow-md' 
                                     className={
                                         index === selectedIndex ?
                                             "border-b border-blue w-80p active:opacity-50 mt-5 cursor-pointer bg-gray p-2 rounded-md shadow-md"

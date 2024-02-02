@@ -74,7 +74,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                         key={i}
                         className={`inline-block  cursor-pointer px-2 text-md rounded-md ${currentPage === i ? 'bg-blue text-white border border-blue' : 'border'
                     } `}
-                        onClick={() => onPageChange(i)}
+                        // onClick={() => onPageChange(i)}
                     >
                         {i}
                     </li>
@@ -89,7 +89,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                         key={i}
                         className={`inline-block  cursor-pointer px-2 text-md rounded-md ${currentPage === i ? 'bg-blue text-white border border-blue' : 'border'
                             } `}
-                        onClick={() => onPageChange(i)}
+                        // onClick={() => onPageChange(i)}
                     >
                         {i}
                     </li>

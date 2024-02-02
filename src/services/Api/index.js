@@ -85,3 +85,12 @@ export const getAllOrders = async (token) => {
     const { data } = await axios.get(`${baseURL}allOrders`, { headers })
     return data
 }
+
+export const updateOrderStatus = async (token, body) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.post(`${baseURL}updateOrderStatus`, body, { headers })
+    return data
+}

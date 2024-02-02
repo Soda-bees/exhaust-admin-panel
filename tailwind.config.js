@@ -9,7 +9,8 @@ module.exports = {
         blue: "#124694",
         gray: "#E7E7E3",
         disable:'#00000033',
-        disable2:'#F1F3F4'
+        disable2:'#F1F3F4',
+        yellow:'#FFA52F'
       },
       width: {
         "10p": "10%",

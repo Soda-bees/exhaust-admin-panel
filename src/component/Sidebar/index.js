@@ -38,14 +38,13 @@ export default function Sidebar() {
             </Link>
             <Link
                 to={'/orders'}
-                className={activePath === '/orders' ?
+                className={activePath === '/orders' || activePath.startsWith('/orderDetail') ?
                     "bg-blue w-80p flex text-white text-lg items-center py-3 rounded-md cursor-pointer mt-5 active:opacity-50"
                     :
                     "hover:bg-gray w-80p flex text-black text-lg items-center py-3 rounded-md cursor-pointer mt-5 active:opacity-50"
                 }
-            // className='hover:bg-gray w-80p flex text-black text-lg items-center py-3 rounded-md cursor-pointer mt-5 active:opacity-50'
             >
-                <img src={activePath === '/orders' ? images.order2 : images.order} className='w-5 h-5 mr-4 ml-5' />
+                <img src={activePath === '/orders'  || activePath.startsWith('/orderDetail') ? images.order2 : images.order} className='w-5 h-5 mr-4 ml-5' />
                 Order list
             </Link>
         </div>

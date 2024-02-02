@@ -8,6 +8,7 @@ import Signin from "../../screens/Signin";
 import AddProduct from "../../screens/AddnewProduct";
 import UpdateProduct from "../../screens/UpdateProduct";
 import ProductDetail from "../../screens/ProductDetail";
+import OrderDetail from "../../screens/OrderDetail";
 
 const router = createBrowserRouter([
     {
@@ -37,11 +38,14 @@ const router = createBrowserRouter([
             {
                 path: '/updateProduct/:_id',
                 element: <UpdateProduct />,
-            }
-            ,
+            },
             {
                 path: '/productDetail/:_id',
                 element: <ProductDetail />,
+            },
+            {
+                path: '/orderDetail/:_id',
+                element: <OrderDetail />,
             }
 
         ],
