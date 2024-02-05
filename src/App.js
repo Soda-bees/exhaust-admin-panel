@@ -1,15 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import Signin from './screens/Signin';
-import Sidebar from './component/Sidebar';
-import Header from './component/Header';
 import Routing from './services/Router';
+import socket from './services/Socket';
 
 function App() {
+
   return (
-    // <Signin />
-    // <Sidebar />
-    // <Header />
     <Routing />
   );
 }

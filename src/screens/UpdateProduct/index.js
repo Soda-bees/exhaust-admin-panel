@@ -29,7 +29,6 @@ export default function UpdateProduct() {
     const authToken = useSelector(selectAuthToken)
 
     useEffect(() => {
-        console.log("-=-=", location.state);
         if (location.state) {
             setName(location.state?.name)
             setQuantity(location.state?.quantity)
@@ -86,9 +85,8 @@ export default function UpdateProduct() {
 
     const handleSoundUpload = async (e) => {
         try {
-            console.log(setLoader(true));
+            setLoader(true)
             const soundFile = e.target.files[0];
-            console.log(e.target.files[0]);
             const formData = new FormData();
             formData.append('sound', soundFile);
             const response = await uploadSound(formData, authToken);
@@ -212,7 +210,7 @@ export default function UpdateProduct() {
                             </div>
                             <div className='flex flex-col mt-3'>
                                 <div className='text-md font-bold'>
-                                    Stock Quantity
+                                    Quantity
                                 </div>
                                 <input
                                     type='number'

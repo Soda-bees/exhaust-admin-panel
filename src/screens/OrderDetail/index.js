@@ -8,6 +8,7 @@ import { addProduct, updateOrderStatus, uploadBrandLogo, uploadProductsImages, u
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate } from 'react-router-dom';
 import countryData from 'country-data';
+import socket from '../../services/Socket';
 
 
 
@@ -30,6 +31,9 @@ export default function OrderDetail() {
     const [customerInfo, setCustomerInfo] = useState()
     const [shippingAddress, setShippingAddress] = useState()
     const [product, setProduct] = useState()
+    const [shipping, setShipping] = useState()
+    const [total, setTotal] = useState()
+    const [subTotal, setSubTotal] = useState()
 
 
     const notify = (message) => {
@@ -55,6 +59,9 @@ export default function OrderDetail() {
             setCustomerInfo(location?.state?.userData)
             setShippingAddress(location?.state?.shippingAddress)
             setProduct(location?.state?.products)
+            setShipping(location?.state?.shipping)
+            setTotal(location?.state?.paid)
+            setSubTotal(location?.state?.shipping + location?.state?.paid)
         }
     }, [location.state])
 
@@ -76,36 +83,39 @@ export default function OrderDetail() {
     }
 
     const handleUpdateStatus = async () => {
-        try {
-            setLoader(true)
-            const obj = {
-                orderId,
-                status: selectedStatus
-            }
-            console.log(obj);
-            const response = await updateOrderStatus(authToken, obj)
-            console.log(response);
-            if (response.success) {
-                setLoader(false)
-                setStatus(response.updatedOrder.status)
-                setSelectedStatus(response.updatedOrder.status)
-                Swal.fire({
-                    title: "Congratulation!",
-                    text: "Product status has been updated successfully!",
-                    icon: "success",
-                    showCancelButton: false,
-                    confirmButtonColor: '#124694',
-                    confirmButtonText: 'Done',
-                    buttonsStyling: true,
-                })
-            } else {
-                setLoader(false)
-                notify(response.message)
-            }
-        } catch (error) {
-            setLoader(false)
-            notify(error.message)
-        }
+
+        socket.emit('statusUpdate' , {
+            _id:orderId,
+            status:selectedStatus
+        })
+        // try {
+        //     setLoader(true)
+        //     const obj = {
+        //         orderId,
+        //         status: selectedStatus
+        //     }
+        //     const response = await updateOrderStatus(authToken, obj)
+        //     if (response.success) {
+        //         setLoader(false)
+        //         setStatus(response.updatedOrder.status)
+        //         setSelectedStatus(response.updatedOrder.status)
+        //         Swal.fire({
+        //             title: "Congratulation!",
+        //             text: "Product status has been updated successfully!",
+        //             icon: "success",
+        //             showCancelButton: false,
+        //             confirmButtonColor: '#124694',
+        //             confirmButtonText: 'Done',
+        //             buttonsStyling: true,
+        //         })
+        //     } else {
+        //         setLoader(false)
+        //         notify(response.message)
+        //     }
+        // } catch (error) {
+        //     setLoader(false)
+        //     notify(error.message)
+        // }
     }
 
     const getInternationalDialingCode = (countryCode) => {
@@ -127,7 +137,7 @@ export default function OrderDetail() {
             <div
                 className='flex items-center justify-between px-6 py-4  text-black text-xl font-bold'
             >
-                Order Detail
+                Order Details
             </div>
             {
                 loader ?
@@ -249,7 +259,7 @@ export default function OrderDetail() {
                                 <div className='w-1/2 '>
                                     <div
                                         className='font-bold'
-                                    >Delever To</div>
+                                    >Deliver To</div>
                                     <div
                                         className='flex flex-row gap-2'
                                     >
@@ -290,7 +300,8 @@ export default function OrderDetail() {
                                 <div className='bg-white-500 w-20p text-black font-bold opacity-60 text-md'>Product Name</div>
                                 <div className='bg-white-500 w-20p text-black font-bold opacity-60 text-md'>Product ID</div>
                                 <div className='bg-white-500 w-20p text-black font-bold opacity-60 text-md'>Brand</div>
-                                <div className='bg-white-500 w-20p text-black font-bold opacity-60 text-md'>Quantity</div>
+                                <div className='bg-white-500 w-20p text-black font-bold opacity-60 text-md '>Quantity</div>
+                                <div className='bg-white-500 w-10p text-black font-bold opacity-60 text-md text-end'>Price</div>
                             </div>
                             {
                                 product &&
@@ -299,36 +310,74 @@ export default function OrderDetail() {
                                         <div
                                             className='w-full gap-2 flex flex-row border-b border-gray pb-2 px-2'
                                         >
-                                            <div className='bg-white-500 w-20p text-black opacity-60 text-md'>
+                                            <div className='bg-white-500 w-20p text-black  text-md'>
                                                 <img src={item?.product?.images[0]}
                                                     className='w-10 h-10 object-contain'
                                                 />
                                             </div>
-                                            <div className='bg-white-500 w-20p text-black opacity-60 text-md'>
+                                            <div className='bg-white-500 w-20p text-black  text-md'>
                                                 {item?.product?.name}
                                             </div>
-                                            <div className='bg-white-500 w-20p text-black opacity-60 text-md'>
+                                            <div className='bg-white-500 w-20p text-black  text-md'>
                                                 {`# ${item?.product?._id.toString().slice(0, 6)}`}
                                             </div>
-                                            <div className='bg-white-500 w-20p text-black opacity-60 text-md flex flex-row items-center'>
+                                            <div className='bg-white-500 w-20p text-black  text-md flex flex-row items-center'>
                                                 <img
                                                     src={item?.product?.brand?.logo}
                                                     className='w-5 h-5 mr-3'
                                                 />
                                                 {item?.product?.brand?.name}
                                             </div>
-                                            <div className='bg-white-500 w-20p text-black opacity-60 text-md'>
+                                            <div className='bg-white-500 w-20p text-black  text-md'>
                                                 {item?.qty}
                                             </div>
+                                            <div className='bg-white-500 w-10p text-black font-bold opacity-60 text-md text-end'>
+                                                {`$ ${item?.product?.price}.00`}
+                                            </div>
+
                                         </div>
                                     )
                                 })
                             }
                             <div
-                                className='self-end'
+                                className='self-end w-20p'
                             >
-                                <div>Shipping charges</div>
-                                <div>Total</div>
+                                <div 
+                                className='flex flex-row items-center justify-between '
+                                >
+                                    <div>
+                                        Shipping charges
+                                    </div>
+                                    <div 
+                                    className='font-semibold'
+                                    >
+                                        {`$ ${shipping}.00`}
+                                    </div>
+                                </div>
+                                <div 
+                                className='flex flex-row items-center justify-between '
+                                >
+                                    <div>
+                                        Total
+                                    </div>
+                                    <div 
+                                    className='font-semibold'
+                                    >
+                                        {`$ ${total}.00`}
+                                    </div>
+                                </div>
+                                <div 
+                                className='flex flex-row items-center justify-between '
+                                >
+                                    <div>
+                                        Sub Total
+                                    </div>
+                                    <div 
+                                    className='font-semibold'
+                                    >
+                                        {`$ ${subTotal}.00`}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

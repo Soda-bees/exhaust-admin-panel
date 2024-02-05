@@ -29,7 +29,6 @@ export default function ProductDetail() {
         }
     }, [location.state])
 
-    console.log(sound);
     return (
         <div className='w-full bg-gray flex flex-col relative'>
             <div

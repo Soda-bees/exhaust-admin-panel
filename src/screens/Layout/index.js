@@ -9,8 +9,6 @@ import { selectAuthToken } from '../../store/authTokenSlice';
 export default function Layout() {
 
     const authToken = useSelector(selectAuthToken)
-    console.log(authToken);
-    // const [authToken, setIsAuth] = useState(false);
     const navigate = useNavigate();
 
     const handleSignOut = () => {
@@ -22,7 +20,8 @@ export default function Layout() {
         if (!authToken) {
             navigate('/signin');
         } else {
-            navigate('/')
+            // navigate('/')
+            navigate('/products')
         }
     }, [authToken, navigate]);
 

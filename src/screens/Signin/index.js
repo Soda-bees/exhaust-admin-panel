@@ -8,7 +8,6 @@ import { selectAuthToken, setAuthToken } from '../../store/authTokenSlice';
 import { BeatLoader, DotLoader, FadeLoader, HashLoader, MoonLoader } from 'react-spinners';
 import { signin } from '../../services/Api';
 import axios from 'axios';
-import apiInstance from '../../services/ApiInstance';
 
 export default function Signin() {
 

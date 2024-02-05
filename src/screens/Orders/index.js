@@ -51,7 +51,6 @@ export default function Orders() {
             setLoader(true)
             const response = await getAllOrders(authToken)
             if (response.success) {
-                console.log(response.allorder.length);
                 setAllOrders(response.allorder)
                 setLoader(false)
             } else {
@@ -86,7 +85,7 @@ export default function Orders() {
 
                 >
                     <div className='text-white'>
-                        {selectedStatus === "All" ? 'Change Status' : selectedStatus}
+                        {selectedStatus === "All" ? 'Filter' : selectedStatus}
                     </div>
                     <img
                         src={images.arrowBtm}
@@ -159,9 +158,9 @@ export default function Orders() {
                                                 })}
                                             </div>
                                             <div className='w-16p text-black flex flex-row items-center text-md'>
-                                                <img 
-                                                src={item?.userData?.profile}
-                                                className='w-8 h-8 rounded-full object-contain mr-2'
+                                                <img
+                                                    src={item?.userData?.profile}
+                                                    className='w-8 h-8 rounded-full object-contain mr-2'
                                                 />
                                                 {item?.userData?.name}</div>
                                             <div className='w-16p text-black   text-md flex items-center justify-start'
@@ -187,7 +186,9 @@ export default function Orders() {
                                                 </div>
 
                                                 {item?.status}</div>
-                                            <div className='w-16p text-black   text-md'>Amount</div>
+                                            <div className='w-16p text-black   text-md'>
+                                                {`$ ${item?.paid + item?.shipping}.00`}
+                                            </div>
                                         </div>
                                     )
                                 })

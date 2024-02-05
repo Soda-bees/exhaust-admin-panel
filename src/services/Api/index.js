@@ -1,8 +1,8 @@
 import axios from "axios"
-import apiInstance from "../ApiInstance"
 
-// const baseURL = 'https://exhaust-backend.netlify.app/.netlify/functions/api/admin/'
-const baseURL = 'http://localhost:9999/.netlify/functions/api/admin/'
+//export const baseURL = 'https://exhaust-backend.netlify.app/.netlify/functions/api/admin/'
+// export const baseURL = 'http://localhost:9999/.netlify/functions/api/admin/'
+export const baseURL = 'http://192.168.100.59:5000/'
 
 
 
@@ -10,7 +10,7 @@ export const signin = async (body) => {
     const headers = {
         'Content-Type': 'application/json',
     }
-    const { data } = await axios.post(`${baseURL}auth/signin`, body, { headers })
+    const { data } = await axios.post(`${baseURL}admin/auth/signin`, body, { headers })
     return data
 }
 
@@ -19,7 +19,7 @@ export const getAllProducts = async (token) => {
         'Content-Type': 'application/json',
         "Authorization": `Bearer ${token}`
     }
-    const { data } = await axios.get(`${baseURL}getAllProducts`, { headers })
+    const { data } = await axios.get(`${baseURL}admin/getAllProducts`, { headers })
     return data
 }
 
@@ -28,7 +28,7 @@ export const deleteProduct = async (_id, token) => {
         'Content-Type': 'application/json',
         "Authorization": `Bearer ${token}`
     }
-    const { data } = await axios.post(`${baseURL}deleteProduct`, { _id }, { headers })
+    const { data } = await axios.post(`${baseURL}admin/deleteProduct`, { _id }, { headers })
     return data
 }
 
@@ -37,7 +37,7 @@ export const uploadBrandLogo = async (formData, token) => {
         'Content-Type': 'multipart/form-data',
         "Authorization": `Bearer ${token}`
     }
-    const { data } = await axios.post(`${baseURL}uploadBrandLogo`, formData, { headers })
+    const { data } = await axios.post(`${baseURL}admin/uploadBrandLogo`, formData, { headers })
     return data
 }
 
@@ -46,7 +46,7 @@ export const uploadSound = async (formData, token) => {
         'Content-Type': 'multipart/form-data',
         "Authorization": `Bearer ${token}`
     }
-    const { data } = await axios.post(`${baseURL}uplaodSound`, formData, { headers })
+    const { data } = await axios.post(`${baseURL}admin/uplaodSound`, formData, { headers })
     return data
 }
 
@@ -55,7 +55,7 @@ export const uploadProductsImages = async (formData, token) => {
         'Content-Type': 'multipart/form-data',
         "Authorization": `Bearer ${token}`
     }
-    const { data } = await axios.post(`${baseURL}uploadProductsImages`, formData, { headers })
+    const { data } = await axios.post(`${baseURL}admin/uploadProductsImages`, formData, { headers })
     return data
 }
 
@@ -64,7 +64,7 @@ export const addProduct = async (token, body) => {
         'Content-Type': 'application/json',
         "Authorization": `Bearer ${token}`
     }
-    const { data } = await axios.post(`${baseURL}addProduct`, body, { headers })
+    const { data } = await axios.post(`${baseURL}admin/addProduct`, body, { headers })
     return data
 }
 
@@ -73,7 +73,7 @@ export const updateProduct = async (token, body) => {
         'Content-Type': 'application/json',
         "Authorization": `Bearer ${token}`
     }
-    const { data } = await axios.post(`${baseURL}updateProduct`, body, { headers })
+    const { data } = await axios.post(`${baseURL}admin/updateProduct`, body, { headers })
     return data
 }
 
@@ -82,7 +82,7 @@ export const getAllOrders = async (token) => {
         'Content-Type': 'application/json',
         "Authorization": `Bearer ${token}`
     }
-    const { data } = await axios.get(`${baseURL}allOrders`, { headers })
+    const { data } = await axios.get(`${baseURL}admin/allOrders`, { headers })
     return data
 }
 
@@ -91,6 +91,6 @@ export const updateOrderStatus = async (token, body) => {
         'Content-Type': 'application/json',
         "Authorization": `Bearer ${token}`
     }
-    const { data } = await axios.post(`${baseURL}updateOrderStatus`, body, { headers })
+    const { data } = await axios.post(`${baseURL}admin/updateOrderStatus`, body, { headers })
     return data
 }

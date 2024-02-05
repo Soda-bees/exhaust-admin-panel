@@ -9,31 +9,34 @@ export default function Sidebar() {
 
     return (
         <div className='w-15p  h-[100vh] flex flex-col items-center fixed '>
-            <Link className='w-80p mt-5' to={'/'}>
-            <img src={images.sigiinLogo} className='w-full  cursor-pointer' />
+            <Link className='w-80p mt-5'
+             to={'/products'}
+             >
+        
+
+                <img src={images.sigiinLogo} className='w-full  cursor-pointer' />
+
             </Link>
             <img src={images.line} className='w-80p mt-5 mb-10' />
-            <Link
+            {/* <Link
                 className={activePath === '/' ?
                     "bg-blue w-80p flex text-white text-lg items-center py-3 rounded-md cursor-pointer mt-5 active:opacity-50"
                     :
                     "hover:bg-gray w-80p flex text-black text-lg items-center py-3 rounded-md cursor-pointer mt-5 active:opacity-50"
                 }
-            // className='bg-blue w-80p flex text-white text-lg items-center py-3 rounded-md cursor-pointer mt-5 active:opacity-50'
             >
                 <img src={activePath === '/' ? images.dashboard2 : images.dashboard} className='w-5 h-5 mr-4 ml-5' />
                 Dashboard
-            </Link>
+            </Link> */}
             <Link
                 to={'/products'}
-                // className='hover:bg-gray w-80p flex text-black text-lg items-center py-3 rounded-md cursor-pointer mt-5 active:opacity-50'
-                className={activePath === '/products' || activePath ===  "/addProduct" || activePath.startsWith('/updateProduct') || activePath.startsWith('/productDetail') ?
+                className={activePath === '/products' || activePath === "/addProduct" || activePath.startsWith('/updateProduct') || activePath.startsWith('/productDetail') ?
                     "bg-blue w-80p flex text-white text-lg items-center py-3 rounded-md cursor-pointer mt-5 active:opacity-50"
                     :
                     "hover:bg-gray w-80p flex text-black text-lg items-center py-3 rounded-md cursor-pointer mt-5 active:opacity-50"
                 }
             >
-                <img src={activePath === '/products' || activePath ===  "/addProduct" || activePath.startsWith('/updateProduct')  || activePath.startsWith('/productDetail') ? images.product2 : images.product} className='w-5 h-5 mr-4 ml-5' />
+                <img src={activePath === '/products' || activePath === "/addProduct" || activePath.startsWith('/updateProduct') || activePath.startsWith('/productDetail') ? images.product2 : images.product} className='w-5 h-5 mr-4 ml-5' />
                 All products
             </Link>
             <Link
@@ -44,8 +47,8 @@ export default function Sidebar() {
                     "hover:bg-gray w-80p flex text-black text-lg items-center py-3 rounded-md cursor-pointer mt-5 active:opacity-50"
                 }
             >
-                <img src={activePath === '/orders'  || activePath.startsWith('/orderDetail') ? images.order2 : images.order} className='w-5 h-5 mr-4 ml-5' />
-                Order list
+                <img src={activePath === '/orders' || activePath.startsWith('/orderDetail') ? images.order2 : images.order} className='w-5 h-5 mr-4 ml-5' />
+                Orders list
             </Link>
         </div>
     )

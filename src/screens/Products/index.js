@@ -44,7 +44,6 @@ export default function Products() {
         try {
             setLoader(true)
             const response = await getAllProducts(authToken)
-            console.log(response);
             if (response.success) {
                 setLoader(false)
                 setAllProducts(response.products)
@@ -133,7 +132,6 @@ export default function Products() {
                     <div className='px-5 mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2'>
                         {allProducts &&
                             currentProducts.map((item, index) => {
-                                console.log(item.quantity);
                                 return (
                                     <div key={index} className='bg-white p-2 rounded-md shadow-md relative'>
                                         {
@@ -145,6 +143,11 @@ export default function Products() {
                                         <div className='flex items-start justify-between'>
                                             <img src={item?.images?.[0]} className='w-1/4  rounded-md' />
                                             <div className='w-full'>
+                                                <div
+                                                className='font-semibold'
+                                                >
+                                                    {`# ${item?._id?.toString()?.slice(0, 6)}`}
+                                                </div>
                                                 <div>{item?.name}</div>
                                                 <div>{item?.brand?.name}</div>
                                                 <div>{`$${item?.price}.00`}</div>
@@ -165,7 +168,7 @@ export default function Products() {
                                                             <div
                                                                 className='bg-white px-6 py-1  hover:bg-gray cursor-pointer active:opacity-50'
                                                                 onClick={() => navigate(`/updateProduct/${item._id}`, { state: item })}
-                                                            >Update</div>
+                                                            >Edit</div>
                                                             <div
                                                                 className='bg-white px-6 py-1  hover:bg-gray cursor-pointer active:opacity-50'
                                                                 onClick={() => {

@@ -65,9 +65,8 @@ export default function AddProduct() {
 
     const handleSoundUpload = async (e) => {
         try {
-            console.log(setLoader(true));
+            setLoader(true)
             const soundFile = e.target.files[0];
-            console.log(e.target.files[0]);
             const formData = new FormData();
             formData.append('sound', soundFile);
             const response = await uploadSound(formData, authToken);
