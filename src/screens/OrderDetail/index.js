@@ -83,39 +83,38 @@ export default function OrderDetail() {
     }
 
     const handleUpdateStatus = async () => {
-
-        socket.emit('statusUpdate' , {
-            _id:orderId,
-            status:selectedStatus
-        })
-        // try {
-        //     setLoader(true)
-        //     const obj = {
-        //         orderId,
-        //         status: selectedStatus
-        //     }
-        //     const response = await updateOrderStatus(authToken, obj)
-        //     if (response.success) {
-        //         setLoader(false)
-        //         setStatus(response.updatedOrder.status)
-        //         setSelectedStatus(response.updatedOrder.status)
-        //         Swal.fire({
-        //             title: "Congratulation!",
-        //             text: "Product status has been updated successfully!",
-        //             icon: "success",
-        //             showCancelButton: false,
-        //             confirmButtonColor: '#124694',
-        //             confirmButtonText: 'Done',
-        //             buttonsStyling: true,
-        //         })
-        //     } else {
-        //         setLoader(false)
-        //         notify(response.message)
-        //     }
-        // } catch (error) {
-        //     setLoader(false)
-        //     notify(error.message)
-        // }
+        try {
+            setLoader(true)
+            const obj = {
+                orderId,
+                status: selectedStatus
+            }
+            const response = await updateOrderStatus(authToken, obj)
+            if (response.success) {
+                setLoader(false)
+                setStatus(response.updatedOrder.status)
+                setSelectedStatus(response.updatedOrder.status)
+                socket.emit('statusUpdate', {
+                    _id: orderId,
+                    status: selectedStatus
+                })
+                Swal.fire({
+                    title: "Congratulation!",
+                    text: "Product status has been updated successfully!",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: '#124694',
+                    confirmButtonText: 'Done',
+                    buttonsStyling: true,
+                })
+            } else {
+                setLoader(false)
+                notify(response.message)
+            }
+        } catch (error) {
+            setLoader(false)
+            notify(error.message)
+        }
     }
 
     const getInternationalDialingCode = (countryCode) => {
@@ -308,6 +307,7 @@ export default function OrderDetail() {
                                 product.map((item, index) => {
                                     return (
                                         <div
+                                            key={index}
                                             className='w-full gap-2 flex flex-row border-b border-gray pb-2 px-2'
                                         >
                                             <div className='bg-white-500 w-20p text-black  text-md'>
@@ -342,38 +342,38 @@ export default function OrderDetail() {
                             <div
                                 className='self-end w-20p'
                             >
-                                <div 
-                                className='flex flex-row items-center justify-between '
+                                <div
+                                    className='flex flex-row items-center justify-between '
                                 >
                                     <div>
                                         Shipping charges
                                     </div>
-                                    <div 
-                                    className='font-semibold'
+                                    <div
+                                        className='font-semibold'
                                     >
                                         {`$ ${shipping}.00`}
                                     </div>
                                 </div>
-                                <div 
-                                className='flex flex-row items-center justify-between '
+                                <div
+                                    className='flex flex-row items-center justify-between '
                                 >
                                     <div>
                                         Total
                                     </div>
-                                    <div 
-                                    className='font-semibold'
+                                    <div
+                                        className='font-semibold'
                                     >
                                         {`$ ${total}.00`}
                                     </div>
                                 </div>
-                                <div 
-                                className='flex flex-row items-center justify-between '
+                                <div
+                                    className='flex flex-row items-center justify-between '
                                 >
                                     <div>
                                         Sub Total
                                     </div>
-                                    <div 
-                                    className='font-semibold'
+                                    <div
+                                        className='font-semibold'
                                     >
                                         {`$ ${subTotal}.00`}
                                     </div>

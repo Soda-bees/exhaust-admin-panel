@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 import images from '../../services/images'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { clearAuthToken } from '../../store/authTokenSlice'
+import { selectUserData } from '../../store/userSlice'
 
 export default function Header() {
     
     const dispatch = useDispatch()
+
+    const userData = useSelector(selectUserData)
+
+    console.log(userData);
 
     const [dropDown, setDropDown] = useState(false)
     return (
