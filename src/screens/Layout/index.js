@@ -12,7 +12,6 @@ export default function Layout() {
     const navigate = useNavigate();
 
     const handleSignOut = () => {
-        // setIsAuth(false);
         navigate('/signin');
     };
 

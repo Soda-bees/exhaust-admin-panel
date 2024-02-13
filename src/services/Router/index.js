@@ -9,6 +9,7 @@ import AddProduct from "../../screens/AddnewProduct";
 import UpdateProduct from "../../screens/UpdateProduct";
 import ProductDetail from "../../screens/ProductDetail";
 import OrderDetail from "../../screens/OrderDetail";
+import UpdateProfile from "../../screens/UpdateProfile";
 
 const router = createBrowserRouter([
     {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
             {
                 path: '/orderDetail/:_id',
                 element: <OrderDetail />,
+            },
+            {
+                path: '/updateProfile',
+                element: <UpdateProfile />,
             }
 
         ],

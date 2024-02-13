@@ -94,3 +94,19 @@ export const updateOrderStatus = async (token, body) => {
     const { data } = await axios.post(`${baseURL}admin/updateOrderStatus`, body, { headers })
     return data
 }
+
+export const forgotPassword = async (email) => {
+    const headers = {
+        'Content-Type': 'application/json'
+    }
+    const { data } = await axios.post(`${baseURL}admin/fotgotPassword`, { email }, { headers })
+    return data
+}
+
+export const resetPassword = async (body) => {
+    const headers = {
+        'Content-Type': 'application/json'
+    }
+    const { data } = await axios.post(`${baseURL}admin/resetPassword`, body, { headers })
+    return data
+}
