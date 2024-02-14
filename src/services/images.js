@@ -23,8 +23,10 @@ import paginationRight from "../assets/images/paginationRight.png"
 import paginationRight2 from "../assets/images/paginationRight2.png"
 import arrowBtm from "../assets/images/arrowBtm.png"
 import print from "../assets/images/print.png"
+import setting from "../assets/images/setting.png"
 
 const images = {
+    setting,
     print,
     arrowBtm,
     paginationLeft,

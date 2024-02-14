@@ -110,3 +110,30 @@ export const resetPassword = async (body) => {
     const { data } = await axios.post(`${baseURL}admin/resetPassword`, body, { headers })
     return data
 }
+
+export const uploadProfile = async (formData, token) => {
+    const headers = {
+        'Content-Type': 'multipart/form-data',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.post(`${baseURL}admin/uploadProfile`, formData, { headers })
+    return data
+}
+
+export const updateProfile = async (token, body) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.post(`${baseURL}admin/updateProfile`, body, { headers })
+    return data
+}
+
+export const changePassword = async (token , body) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${token}`
+    }
+    const { data } = await axios.post(`${baseURL}admin/changePassword`, body, { headers })
+    return data
+}
